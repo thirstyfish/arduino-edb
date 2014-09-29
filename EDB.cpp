@@ -24,7 +24,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "WProgram.h"
+#if defined(ARDUINO) && ARDUINO >= 100
+  #include "Arduino.h"
+#else
+  #include "WProgram.h"
+#endif
 #include "EDB.h"
 
 /**************************************************/
@@ -158,6 +162,24 @@ EDB_Status EDB::appendRec(EDB_Rec rec)
   writeHead();
   return EDB_OK;
 }
+
+// // Finds a record using a 20 bytes long ID field (SHA1 hash is 20 bytes)
+// EDB_Status EDB::findById(byte *id, unsigned long recno, EDB_Rec rec)
+// {
+//   // iterate through records from beginnning of table until we find a record
+//   // with id or reach the end of the table
+//   for (recno = 1; recno <= EDB_head.n_recs; recno++)
+//   {
+//     edbRead(EDB_table_ptr + ((recno-1) * EDB_head.rec_size), rec, EDB_head.rec_size);
+//     // if IDs match up, return OK, matched record in rec, record number in recno
+//     if (!memcmp(rec->id, id, 20))
+//       return EDB_OK;
+//   }
+//   // if no match was found
+//   recno = 0;
+//   rec = NULL;
+//   return EDB_NOT_FOUND;
+// }
 
 // returns the number of queued items
 unsigned long EDB::count()

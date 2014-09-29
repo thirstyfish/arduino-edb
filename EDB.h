@@ -37,7 +37,8 @@ struct EDB_Header
 typedef enum EDB_Status { 
                           EDB_OK,
                           EDB_OUT_OF_RANGE,
-                          EDB_TABLE_FULL
+                          EDB_TABLE_FULL,
+                          EDB_NOT_FOUND
                         };
 
 typedef byte* EDB_Rec;
@@ -56,6 +57,7 @@ class EDB {
     EDB_Status insertRec(unsigned long, const EDB_Rec);
     EDB_Status updateRec(unsigned long, const EDB_Rec);
     EDB_Status appendRec(EDB_Rec rec);
+    EDB_Status findById(byte *, unsigned long, EDB_Rec);
     unsigned long limit();
 	  unsigned long count();
     void clear();
